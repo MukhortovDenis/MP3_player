@@ -20,15 +20,35 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/linearLayout3"
-        android:layout_marginBottom="-1dp">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearLayout1"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentBottom="false">
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="475dp"
+            android:layout_marginStart="-2dp"
+            android:layout_marginLeft="-2dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+
+
+                />
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         android:layout_alignParentTop="true"
@@ -36,17 +56,6 @@
         android:layout_marginLeft="0dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="0dp">
-
-        <Button
-            android:id="@+id/btnStartHttp"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClickStart"
-            android:text="@string/http"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"></Button>
 
         <Button
             android:id="@+id/btnStartStream"

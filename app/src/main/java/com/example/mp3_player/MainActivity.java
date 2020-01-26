@@ -1,8 +1,12 @@
 package com.example.mp3_player;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+
+import java.io.File;
 import java.io.IOException;
 
 import android.app.Activity;
@@ -24,18 +28,15 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 public class MainActivity extends Activity implements OnPreparedListener,
 
         OnCompletionListener {
-
+    private RecyclerView numbersList;
+    private NumbersAdapter numbersAdapter;
     final String LOG_TAG = "myLogs";
-
-    final String DATA_HTTP = "...";
     final String DATA_STREAM = "http://air.radiorecord.ru:805/rock_320";
     final String DATA_SD = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
             + "/music.mp3";
-    final Uri DATA_URI = ContentUris
-            .withAppendedId(
-                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    13359);
+    final Uri DATA_URI = Uri.parse("/storage/self/primary/Music/");
+
 
     MediaPlayer mediaPlayer;
     AudioManager am;
@@ -46,6 +47,16 @@ public class MainActivity extends Activity implements OnPreparedListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        numbersList = findViewById(R.id.recycle);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        numbersList.setLayoutManager(layoutManager);
+
+        numbersList.setHasFixedSize(true);
+        numbersAdapter = new NumbersAdapter(100);
+        numbersList.setAdapter(numbersAdapter);
+
+
 
         am = (AudioManager) getSystemService(AUDIO_SERVICE);
         chbLoop = findViewById(R.id.chbLoop);
@@ -65,15 +76,6 @@ public class MainActivity extends Activity implements OnPreparedListener,
 
         try {
             switch (view.getId()) {
-                case R.id.btnStartHttp:
-                    Log.d(LOG_TAG, "start HTTP");
-                    mediaPlayer = new MediaPlayer();
-                    mediaPlayer.setDataSource(DATA_HTTP);
-                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    Log.d(LOG_TAG, "prepareAsync");
-                    mediaPlayer.setOnPreparedListener(this);
-                    mediaPlayer.prepareAsync();
-                    break;
                 case R.id.btnStartStream:
                     Log.d(LOG_TAG, "start Stream");
                     mediaPlayer = new MediaPlayer();
