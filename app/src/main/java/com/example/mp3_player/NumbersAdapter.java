@@ -13,27 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
 
 public class NumbersAdapter extends RecyclerView.Adapter<NumbersAdapter.NumberViewHolder>{
-    final String LOG_TAG = "myLogs";
-    private static int viewHolderCount;
-    private int numberItems;
 
+    protected String[] listFiles;
+    protected UpdateTrack updateTrack;
 
-    public String dirPath = "/storage/self/primary/Music/";
-
-    private final File[] files;
-
-    {
-        //Говна сьел, говнокод вышел
-       // int i = 0;
-        File file = new File(dirPath);
-        File[] files = file.listFiles();
-        music = files[]toString;
-
-    }
-
-    public NumbersAdapter(int numberOfItems) {
-        numberItems = numberOfItems;
-        viewHolderCount = 0;
+    public NumbersAdapter(String[] listFiles, UpdateTrack context) {
+        this.listFiles = listFiles;
+        this.updateTrack = context;
     }
 
     @NonNull
@@ -41,16 +27,10 @@ public class NumbersAdapter extends RecyclerView.Adapter<NumbersAdapter.NumberVi
     public NumberViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         int layoutIdForListItem = R.layout.number_list_item;
-
         LayoutInflater inflater = LayoutInflater.from(context);
-
         View view = inflater.inflate(layoutIdForListItem, parent, false);
 
-        NumberViewHolder viewHolder = new NumberViewHolder(view);
-        viewHolder.viewHolderIndex.setText("ViewHolder index" + viewHolderCount);
-
-        viewHolderCount++;
-        return viewHolder;
+        return new NumberViewHolder(view);
     }
 
     @Override
@@ -60,24 +40,29 @@ public class NumbersAdapter extends RecyclerView.Adapter<NumbersAdapter.NumberVi
 
     @Override
     public int getItemCount() {
-        return numberItems;
+        return listFiles.length;
     }
 
-    class NumberViewHolder extends RecyclerView.ViewHolder {
-
+    class NumberViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        //Статичные объекты
         TextView listItemNumberView;
+        //Название трека
         TextView viewHolderIndex;
-            public NumberViewHolder(View itemView) {
+            NumberViewHolder(View itemView) {
                 super(itemView);
-
                 listItemNumberView = itemView.findViewById(R.id.number_item);
                 viewHolderIndex = itemView.findViewById(R.id.viewHolderNumber);
-
+                itemView.setOnClickListener(this);
             }
 
-            void bind(int Tracks){
-                listItemNumberView.setText(String.valueOf(Tracks));
+            void bind(int position){
+                listItemNumberView.setText(position + 1);
+                viewHolderIndex.setText(listFiles[position]);
             }
 
+        @Override
+        public void onClick(View v) {
+                updateTrack.update(listFiles[getAdapterPosition()]);
+        }
     }
 }

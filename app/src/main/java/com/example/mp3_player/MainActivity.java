@@ -1,22 +1,20 @@
 package com.example.mp3_player;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 
 import android.app.Activity;
-import android.content.ContentUris;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
-import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -25,9 +23,8 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 
-public class MainActivity extends Activity implements OnPreparedListener,
+public class MainActivity extends Activity implements OnPreparedListener, UpdateTrack{
 
-        OnCompletionListener {
     private RecyclerView numbersList;
     private NumbersAdapter numbersAdapter;
     final String LOG_TAG = "myLogs";
@@ -35,7 +32,7 @@ public class MainActivity extends Activity implements OnPreparedListener,
     final String DATA_SD = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
             + "/music.mp3";
-    final Uri DATA_URI = Uri.parse("/storage/self/primary/Music/");
+    private Uri DATA_URI = null;
 
 
     MediaPlayer mediaPlayer;
@@ -53,11 +50,9 @@ public class MainActivity extends Activity implements OnPreparedListener,
         numbersList.setLayoutManager(layoutManager);
 
         numbersList.setHasFixedSize(true);
-        numbersAdapter = new NumbersAdapter(100);
+        numbersAdapter = new NumbersAdapter(getFiles(), this);
         numbersList.setAdapter(numbersAdapter);
-
-
-
+        ///
         am = (AudioManager) getSystemService(AUDIO_SERVICE);
         chbLoop = findViewById(R.id.chbLoop);
         chbLoop.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -69,6 +64,13 @@ public class MainActivity extends Activity implements OnPreparedListener,
             }
         });
 
+    }
+
+    private String[] getFiles(){
+        String dir = "/storage/self/primary/Music/";
+        File test = new File(dir);
+        System.out.println(test.list().toString());
+        return test.list() ;
     }
 
     public void onClickStart(View view) {
@@ -116,7 +118,7 @@ public class MainActivity extends Activity implements OnPreparedListener,
             return;
 
         mediaPlayer.setLooping(chbLoop.isChecked());
-        mediaPlayer.setOnCompletionListener(this);
+        mediaPlayer.setOnCompletionListener((OnCompletionListener) this);
     }
 
     private void releaseMP() {
@@ -169,7 +171,6 @@ public class MainActivity extends Activity implements OnPreparedListener,
         mp.start();
     }
 
-    @Override
     public void onCompletion(MediaPlayer mp) {
         Log.d(LOG_TAG, "onCompletion");
     }
@@ -178,5 +179,12 @@ public class MainActivity extends Activity implements OnPreparedListener,
     protected void onDestroy() {
         super.onDestroy();
         releaseMP();
-    }}
+    }
+
+    @Override
+    public void update(String pathInMusic) {
+        this.DATA_URI =
+                Uri.parse("file:///storage/self/primary/Music/" + pathInMusic);
+    }
+}
 
