@@ -3,7 +3,7 @@
     <string name="http">HTTP</string>
     <string name="stream">Stream</string>
     <string name="sd">SD</string>
-    <string name="uri">Uri</string>
+    <string name="uri">Start</string>
     <string name="raw">Raw</string>
     <string name="pause">Pause</string>
     <string name="resume">Resume</string>
@@ -11,5 +11,5 @@
     <string name="loop">Loop</string>
     <string name="backward">Back</string>
     <string name="forward">Forw</string>
-    <string name="info">Info</string>
+
 </resources>

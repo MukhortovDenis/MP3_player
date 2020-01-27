@@ -153,14 +153,7 @@ public class MainActivity extends Activity implements OnPreparedListener, Update
             case R.id.btnForward:
                 mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 3000);
                 break;
-            case R.id.btnInfo:
-                Log.d(LOG_TAG, "Playing " + mediaPlayer.isPlaying());
-                Log.d(LOG_TAG, "Time " + mediaPlayer.getCurrentPosition() + " / "
-                        + mediaPlayer.getDuration());
-                Log.d(LOG_TAG, "Looping " + mediaPlayer.isLooping());
-                Log.d(LOG_TAG,
-                        "Volume " + am.getStreamVolume(AudioManager.STREAM_MUSIC));
-                break;
+
 
         }
     }

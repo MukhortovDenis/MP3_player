@@ -144,15 +144,5 @@
             android:onClick="onClick"
             android:text="@string/forward"
             android:textSize="12sp"></Button>
-
-        <Button
-            android:background="@color/paddingColor"
-            android:id="@+id/btnInfo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="@string/info"
-            android:textSize="12sp"></Button>
     </LinearLayout>
 </RelativeLayout>
